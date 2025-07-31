@@ -38,24 +38,15 @@ rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastik
 
 ---
 
-### Modul 1 System Call dan Instrumentasi Kernel:
-
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
----
-
 
 ## ✅ Uji Fungsionalitas
 
-ptest:
+-ptest:
 Program ini memanggil fungsi getpinfo() untuk menampilkan semua proses yang sedang aktif, lalu mencetak informasi seperti PID (Process ID) dan nama proses masing-masing.**
+-rtest:
+Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.
 
-rtest:
-Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.******
-
+---
 
 ## 📷 Hasil Uji
 
