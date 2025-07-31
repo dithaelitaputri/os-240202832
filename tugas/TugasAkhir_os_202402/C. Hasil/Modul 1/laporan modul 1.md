@@ -20,8 +20,9 @@ Pada modul ini, dilakukan penambahan dua system call baru ke dalam kernel xv6.
 
 ## 🛠️ Rincian Implementasi
 
+
 -Menambahkan system call baru
-Tambahkan sys_getpinfo() dan sys_getReadCount() di sysproc.c untuk mengambil info proses dan jumlah pemanggilan read().
+Tambahkan sys_getpinfo() dan sys_getReadCount() di sysproc.c untuk mengambil info proses dan jumlah pemanggilan read().  
 -Mendaftarkan nomor syscall
 Tambahkan nomor unik untuk kedua syscall di syscall.h.
 -Mendaftarkan syscall ke user space
