@@ -13,64 +13,65 @@
 
 * **Modul 3 – Copy-on-Write dan Shared Memory**:
   Modul ini menambahkan dua fitur penting ke dalam kernel XV6:
-- Copy-on-Write (CoW): membuat fork() lebih efisien dengan membagi halaman memori secara baca-saja, dan hanya menyalin saat proses menulis.
+- Copy-on-Write (CoW): membuat fork() lebih efisien dengan membagi halaman memori secara baca-saja, dan hanya menyalin saat proses menulis.  
+- Shared Memory: memungkinkan beberapa proses berbagi satu halaman memori menggunakan shmget() dan shmrelease().
 
-Shared Memory: memungkinkan beberapa proses berbagi satu halaman memori menggunakan shmget() dan shmrelease().
+  
 ---
 
 ## 🛠️ Rincian Implementasi
 
-1. Membuat file ptest.c
-Buat program user bernama ptest.c yang akan digunakan untuk menguji pembuatan proses dan pengaturan urutan eksekusi.  
-2. Memanggil fork() dua kali
-Di dalam program, gunakan fork() sebanyak dua kali untuk membuat dua proses anak dari proses utama (parent).  
-3. Mengatur urutan output dengan wait()
-Gunakan system call wait() agar proses induk menunggu semua proses anak selesai terlebih dahulu. Ini dilakukan supaya output tidak tercampur dan urutannya rapi.  
-4. Menampilkan pesan dari proses anak dan induk
-Masing-masing proses anak mencetak pesan bahwa tugasnya sudah selesai. Setelah semua anak selesai, proses induk akan mencetak pesan terakhir sebagai penutup.  
-5. Tanpa menambahkan system call baru
-Modul ini hanya menggunakan system call yang sudah tersedia di xv6 (seperti fork(), wait(), dan printf), jadi tidak perlu mengubah kode kernel.    
+1. Modifikasi mekanisme fork()
+Ubah fork() agar tidak langsung menyalin seluruh memori. Proses parent dan child cukup berbagi halaman memori dengan izin baca-saja.  
+2. Tangani penulisan dengan Copy-on-Write (CoW)
+Tambahkan logika untuk mendeteksi page fault saat proses mencoba menulis. Saat itu, sistem akan menyalin halaman baru khusus untuk proses tersebut.  
+3. Gunakan refcount untuk manajemen memori
+Tambahkan penghitung referensi (refcount) pada setiap halaman fisik untuk melacak berapa banyak proses yang berbagi halaman tersebut.  
+4. Tambahkan fitur Shared Memory
+Buat system call shmget(int key) untuk mengakses halaman memori bersama berdasarkan key, dan shmrelease(int key) untuk melepasnya.  
+5. Berbagi halaman antar proses
+Proses yang memanggil shmget() dengan key yang sama akan mendapatkan alamat ke halaman memori yang sama, dan refcount akan bertambah.     
 
 ---
 
 
 ## ✅ Uji Fungsionalitas
 
-- ptest:
-Digunakan untuk menguji proses pembuatan child (melalui fork()) dan sinkronisasi antara proses parent dan child.  
-- output:
-Output program menunjukkan bahwa proses child selesai lebih dulu, kemudian diikuti oleh proses parent.    
+- cowtest:
+digunakan untuk memastikan bahwa setelah proses fork() dengan Copy-on-Write, parent dan child memiliki salinan data yang berbeda saat salah satu melakukan perubahan.    
+- shmtest:
+digunakan untuk menguji apakah parent dan child dapat berbagi halaman memori yang sama, namun tetap bisa mengakses dan mengubah data secara mandiri melalui mekanisme shared memory.
+    
 ---
 
 ## 📷 Hasil Uji
 
-### 📍 Output `ptest`:
+### 📍 Output `cowtest`:
 
 ```
-Child 2 selesai  
-Child 1 selesai  
-Parent selesai  
-```
+Child sees: Y
+Parent sees: X
 
+```
+### 📍 Output `shmtest`:
+
+```
+Child reads: A
+Parent reads: B
+```
 
 ### 📸 screenshot:
-<img width="389" height="130" alt="modul 2" src="https://github.com/user-attachments/assets/d887d16c-4c68-4b32-a625-cb0ba72a688a" />
-
----
-
-![hasil ptest dan rtest](./screenshots/modul 2.png)  
-
+<img width="435" height="183" alt="modul 3" src="https://github.com/user-attachments/assets/c95055c5-4946-44f0-b804-0fe72be54bf1" />
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-- Output child dan parent tercampur
-Kalau wait() tidak dipakai dengan benar, proses anak dan induk bisa mencetak pesan bersamaan, jadi urutannya kacau.  
+- Refcount tidak berjalan dengan benar
+Awalnya saya lupa menambah dan mengurangi refcount saat halaman dibagi atau dibebaskan. Akibatnya, ada memori yang dibuang padahal masih dipakai, atau malah tidak pernah dibebaskan.
 
-- Semua proses menjalankan kode yang sama
-Setelah fork(), baik parent maupun child menjalankan baris yang sama. Kalau tidak dicek, kita tidak tahu siapa yang harus mencetak apa.  
-
+- Dua proses menulis ke halaman yang sama secara bersamaan
+Saya mengalami kasus di mana proses parent dan child menulis ke memori bersama hampir bersamaan. Ini membuat data jadi tidak konsisten, dan sulit dilacak karena tanpa proteksi yang jelas.  
 ---
 
 ## 📚 Referensi
