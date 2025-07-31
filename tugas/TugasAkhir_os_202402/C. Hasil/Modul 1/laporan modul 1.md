@@ -13,8 +13,10 @@
 
 * **Modul 1 – System Call dan Instrumentasi Kernel**:
 Pada modul ini, dilakukan penambahan dua system call baru ke dalam kernel xv6.
-getpinfo(), berfungsi untuk menampilkan informasi proses-proses yang sedang aktif di sistem.
-getReadCount(), digunakan untuk menghitung berapa kali fungsi read() dipanggil sejak sistem
+-getpinfo(), berfungsi untuk menampilkan informasi proses-proses yang sedang aktif di sistem.
+-getReadCount(), digunakan untuk menghitung berapa kali fungsi read() dipanggil sejak sistem
+
+---
 
 ## 🛠️ Rincian Implementasi
 
@@ -33,6 +35,8 @@ Tambahkan readcount++ di sys_read() agar jumlah pemanggilan read() tercatat.
 -Membuat program uji coba
 ptest.c: memanggil getpinfo() dan mencetak PID dan nama proses.
 rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastikan nilai bertambah.
+
+---
 
 ### Modul 1 System Call dan Instrumentasi Kernel:
 
