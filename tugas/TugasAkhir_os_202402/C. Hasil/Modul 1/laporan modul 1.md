@@ -24,18 +24,18 @@ Pada modul ini, dilakukan penambahan dua system call baru ke dalam kernel xv6.
 -Menambahkan system call baru
 Tambahkan sys_getpinfo() dan sys_getReadCount() di sysproc.c untuk mengambil info proses dan jumlah pemanggilan read().  
 -Mendaftarkan nomor syscall
-Tambahkan nomor unik untuk kedua syscall di syscall.h.
+Tambahkan nomor unik untuk kedua syscall di syscall.h.  
 -Mendaftarkan syscall ke user space
-Tambahkan entri di usys.S dan deklarasi fungsi di user.h agar bisa digunakan oleh program user.
+Tambahkan entri di usys.S dan deklarasi fungsi di user.h agar bisa digunakan oleh program user.  
 -Membuat struktur data proses
-Buat struct pinfo di proc.h untuk menyimpan PID dan nama proses.
+Buat struct pinfo di proc.h untuk menyimpan PID dan nama proses.  
 -Menambahkan variabel penghitung read
-Tambahkan variabel global readcount di kernel.
+Tambahkan variabel global readcount di kernel.  
 -Menambah logika di sys_read()
-Tambahkan readcount++ di sys_read() agar jumlah pemanggilan read() tercatat.
+Tambahkan readcount++ di sys_read() agar jumlah pemanggilan read() tercatat.  
 -Membuat program uji coba
-ptest.c: memanggil getpinfo() dan mencetak PID dan nama proses.
-rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastikan nilai bertambah.
+ptest.c: memanggil getpinfo() dan mencetak PID dan nama proses.  
+rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastikan nilai bertambah.  
 
 ---
 
@@ -43,9 +43,9 @@ rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastik
 ## ✅ Uji Fungsionalitas
 
 -ptest:
-Program ini memanggil fungsi getpinfo() untuk menampilkan semua proses yang sedang aktif, lalu mencetak informasi seperti PID (Process ID) dan nama proses masing-masing.**
+Program ini memanggil fungsi getpinfo() untuk menampilkan semua proses yang sedang aktif, lalu mencetak informasi seperti PID (Process ID) dan nama proses masing-masing.  
 -rtest:
-Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.
+Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.  
 
 ---
 
@@ -56,18 +56,18 @@ Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read
 
 ```
 $ ptest
-PID    MEM     NAME
-1      12288   init
-2      16384   sh
-3      12288   ptest
+PID    MEM     NAME  
+1      12288   init  
+2      16384   sh  
+3      12288   ptest  
 ```
 
 ### 📍 Output `rtest`:
 
 ```
-Read Count Sebelum: 14
-hello
-Read Count Setelah: 15
+Read Count Sebelum: 14  
+hello  
+Read Count Setelah: 15  
 ```
 
 ### 📸 screenshot:
