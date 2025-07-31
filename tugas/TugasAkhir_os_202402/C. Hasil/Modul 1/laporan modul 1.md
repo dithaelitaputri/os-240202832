@@ -44,6 +44,7 @@ rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastik
 
 -ptest:
 Program ini memanggil fungsi getpinfo() untuk menampilkan semua proses yang sedang aktif, lalu mencetak informasi seperti PID (Process ID) dan nama proses masing-masing.  
+  
 -rtest:
 Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.  
 
@@ -80,7 +81,7 @@ Read Count Setelah: 15
 
 ## ⚠️ Kendala yang Dihadapi
 
-Struktur data tidak terbaca antara kernel dan user space.
+Struktur data tidak terbaca antara kernel dan user space. jadi saat di terminal error karena tidak terpamggil  
 Variabel global tidak dikenali di file lain (kurang extern).
 
 ---
