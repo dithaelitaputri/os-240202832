@@ -11,14 +11,28 @@
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
-
 * **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Pada modul ini, dilakukan penambahan dua system call baru ke dalam kernel xv6. System call pertama, getpinfo(), berfungsi untuk menampilkan informasi proses-proses yang sedang aktif di sistem. Sedangkan system call kedua, getReadCount(), digunakan untuk menghitung berapa kali fungsi read() dipanggil sejak sistem melakukan booting. Penambahan ini bertujuan untuk memahami cara kerja system call serta bagaimana kernel dapat diinstrumentasi untuk memantau aktivitas internal sistem secara langsung.
+Pada modul ini, dilakukan penambahan dua system call baru ke dalam kernel xv6.
+getpinfo(), berfungsi untuk menampilkan informasi proses-proses yang sedang aktif di sistem.
+getReadCount(), digunakan untuk menghitung berapa kali fungsi read() dipanggil sejak sistem
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+-Menambahkan system call baru
+Tambahkan sys_getpinfo() dan sys_getReadCount() di sysproc.c untuk mengambil info proses dan jumlah pemanggilan read().
+-Mendaftarkan nomor syscall
+Tambahkan nomor unik untuk kedua syscall di syscall.h.
+-Mendaftarkan syscall ke user space
+Tambahkan entri di usys.S dan deklarasi fungsi di user.h agar bisa digunakan oleh program user.
+-Membuat struktur data proses
+Buat struct pinfo di proc.h untuk menyimpan PID dan nama proses.
+-Menambahkan variabel penghitung read
+Tambahkan variabel global readcount di kernel.
+-Menambah logika di sys_read()
+Tambahkan readcount++ di sys_read() agar jumlah pemanggilan read() tercatat.
+-Membuat program uji coba
+ptest.c: memanggil getpinfo() dan mencetak PID dan nama proses.
+rtest.c: mencetak nilai getReadCount() sebelum dan sesudah read() untuk memastikan nilai bertambah.
 
 ### Modul 1 System Call dan Instrumentasi Kernel:
 
@@ -29,6 +43,7 @@ Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
 * Membuat dua program uji: `ptest.c` dan `rtest.c`
 ---
 
+
 ## ✅ Uji Fungsionalitas
 
 ptest:
@@ -36,47 +51,41 @@ Program ini memanggil fungsi getpinfo() untuk menampilkan semua proses yang seda
 
 rtest:
 Program ini menggunakan getReadCount() untuk mendapatkan jumlah pemanggilan read() sebelum dan sesudah melakukan operasi read(), guna memastikan bahwa penghitung (counter) benar-benar bertambah setelah fungsi read() dipanggil.******
----
+
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
-
-```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
+### 📍 Output `ptest`:
 
 ```
-Child reads: A
-Parent reads: B
+$ ptest
+PID    MEM     NAME
+1      12288   init
+2      16384   sh
+3      12288   ptest
 ```
 
-### 📍 Contoh Output `chmodtest`:
+### 📍 Output `rtest`:
 
 ```
-Write blocked as expected
+Read Count Sebelum: 14
+hello
+Read Count Setelah: 15
 ```
 
-Jika ada screenshot:
+### 📸 screenshot:
+<img width="1000" height="679" alt="modul 1" src="https://github.com/user-attachments/assets/8899cd59-30a3-4ac4-b8c1-11d5a778d17c" />
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+![hasil ptest dan rtest](./screenshots/modul1.png)
+
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+Struktur data tidak terbaca antara kernel dan user space.
+Variabel global tidak dikenali di file lain (kurang extern).
 
 ---
 
