@@ -56,11 +56,6 @@ Parent selesai
 
 ---
 
-![hasil ptest dan rtest](./screenshots/modul 2.png)  
-
-
----
-
 ## ⚠️ Kendala yang Dihadapi
 
 - Output child dan parent tercampur
