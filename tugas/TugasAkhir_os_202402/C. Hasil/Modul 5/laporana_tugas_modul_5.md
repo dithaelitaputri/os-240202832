@@ -46,7 +46,7 @@ Menambahkan:
 
 ## ✅ Uji Fungsionalitas
 
-- audit:
+- audit:  
 - untuk melihat isi log system call (jika dijalankan oleh PID 1)  
 ---
 
@@ -55,19 +55,19 @@ Menambahkan:
 ### 📍 Output `audit dengan PID bukan 1`:
 
 ```
-$ audit
+$ audit  
 Access denied or error.  
 ```
 ### 📍 Output audit PID = 1 :
 
-=== Audit Log ===
-[0] PID=1 SYSCALL=7 TICK=10
-[1] PID=1 SYSCALL=15 TICK=15
-[2] PID=1 SYSCALL=17 TICK=15
-[3] PID=1 SYSCALL=15 TICK=20
+=== Audit Log ===  
+[0] PID=1 SYSCALL=7 TICK=10  
+[1] PID=1 SYSCALL=15 TICK=15  
+[2] PID=1 SYSCALL=17 TICK=15  
+[3] PID=1 SYSCALL=15 TICK=20  
 
 ### 📸 screenshot:
-<img width="644" height="437" alt="modull 5" src="https://github.com/user-attachments/assets/fc2f070f-ae28-4219-aaa1-24dd6708f008" />
+<img width="644" height="437" alt="modull 5" src="https://github.com/user-attachments/assets/fc2f070f-ae28-4219-aaa1-24dd6708f008" />  
 
 
 ---
