@@ -11,36 +11,36 @@
 
 ## 📌 Deskripsi Singkat Tugas
 
-* **Modul 2 – Audit dan Sistem Keamanan (xv6-public)**:
+* **Modul 5 – Audit dan Sistem Keamanan (xv6-public)**:
 - Modul ini menambahkan fitur audit log pada xv6, yang mencatat setiap pemanggilan system call secara otomatis. Log hanya dapat diakses oleh proses dengan PID 1 melalui syscall get_audit_log(), sehingga terjamin keamanannya dari proses lain.  
 
 ---
 
 ## 🛠️ Rincian Implementasi
 
-1. syscall.c
-Menambahkan:
+1. syscall.c  
+Menambahkan:  
 - Struktur audit_entry  
 - Array log audit_log[MAX_AUDIT]  
 - Variabel indeks audit_index : Memodifikasi fungsi syscall() untuk mencatat setiap pemanggilan syscall ke dalam log secara otomatis.  
-2. sysproc.c
+2. sysproc.c  
 - Menambahkan definisi struct audit_entry serta deklarasi eksternal audit_log dan audit_index.  
 - Mengimplementasikan syscall baru sys_get_audit_log() yang hanya dapat diakses oleh proses dengan PID 1.  
-
 3. defs.h  
 - Menambahkan makro #define MAX_AUDIT 128.  
 - Menambahkan deklarasi fungsi get_audit_log(struct audit_entry*, int) sebagai antarmuka ke syscall audit  
 4. user.h  
 - Menambahkan definisi struct audit_entry untuk digunakan di user space.  
-- Menambahkan deklarasi int get_audit_log(void *buf, int max) agar program pengguna dapat memanggil syscall audit.  
+- Menambahkan deklarasi int get_audit_log(void *buf, int max) agar program pengguna dapat memanggil syscall audit.    
 5. usys.S  
 - Menambahkan entri syscall SYSCALL(get_audit_log) untuk menjembatani syscall ke kode user.  
 6. syscall.h  
 - Menambahkan #define SYS_get_audit_log 22 untuk mendefinisikan nomor syscall audit log.  
 7. audit.c  
-- Membuat program user space untuk menguji syscall get_audit_log().
-8. Makefile
-  - Menambahkan audit.c ke daftar program user agar disertakan dalam build xv6.
+- Membuat program user space untuk menguji syscall get_audit_log().  
+8. Makefile  
+  - Menambahkan audit.c ke daftar program user agar disertakan dalam build xv6.  
+
 ---
 
 
