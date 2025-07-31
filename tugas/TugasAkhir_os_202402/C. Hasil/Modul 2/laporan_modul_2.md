@@ -35,7 +35,7 @@ Modul ini hanya menggunakan system call yang sudah tersedia di xv6 (seperti fork
 ## ✅ Uji Fungsionalitas
 
 - ptest:
-Digunakan untuk menguji proses pembuatan anak (melalui fork()) dan sinkronisasi antara proses induk dan anak.  
+Digunakan untuk menguji proses pembuatan child (melalui fork()) dan sinkronisasi antara proses parent dan child.  
 - output:
 Output program menunjukkan bahwa proses anak selesai lebih dulu, kemudian diikuti oleh proses induk.  
 ---
@@ -63,7 +63,7 @@ Parent selesai
 
 ## ⚠️ Kendala yang Dihadapi
 
-- Output anak dan orang tua tercampur
+- Output child dan parent tercampur
 Kalau wait() tidak dipakai dengan benar, proses anak dan induk bisa mencetak pesan bersamaan, jadi urutannya kacau.  
 
 - Semua proses menjalankan kode yang sama
